@@ -22,16 +22,14 @@ jobs:
             - uses: actions/checkout@v2-beta
             - name: Copy repository
               run: |
-                  mkdir -p ~/ros2_ws/src/hermite_path_planner
-                  cp -rf . ~/ros2_ws/src/hermite_path_planner
+                  mkdir -p ~/ros2_ws/src/behavior_tree_action_builder
+                  cp -rf . ~/ros2_ws/src/behavior_tree_action_builder
             - name: Install dependencies
               run: |
                   source /opt/ros/eloquent/setup.bash
                   sudo apt install -y python-rosdep python3-vcstool
                   sudo rosdep init
                   rosdep update
-                  cd ~/ros2_ws
-                  vcs import src < src/hermite_path_planner/dependency.repos
                   cd ~/ros2_ws/src
                   rosdep install -r -y --from-paths . --ignore-src
             - name: Build packages

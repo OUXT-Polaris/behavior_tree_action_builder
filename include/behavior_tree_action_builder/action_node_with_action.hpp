@@ -25,7 +25,7 @@
 namespace behavior_tree_action_builder
 {
 template<class ActionT>
-class ActionNodeWithAction : public BT::SyncActionNode, public rclcpp::Node
+class ActionNodeWithAction : public BT::AsyncActionNode, public rclcpp::Node
 {
 public:
   using GoalHandle = rclcpp_action::ClientGoalHandle<ActionT>;
@@ -33,7 +33,7 @@ public:
     const std::string & name,
     const BT::NodeConfiguration & config,
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-  :  BT::SyncActionNode(name, config), rclcpp::Node(name, options)
+  :  BT::AsyncActionNode(name, config), rclcpp::Node(name, options)
   {
     name_ = name;
     setRegistrationID(name);

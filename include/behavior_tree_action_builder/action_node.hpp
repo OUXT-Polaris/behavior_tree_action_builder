@@ -20,14 +20,14 @@
 
 namespace behavior_tree_action_builder
 {
-class ActionNode : public BT::SyncActionNode
+class ActionNode : public BT::AsyncActionNode
 {
 public:
   ActionNode(
     const std::string & name,
     const BT::NodeConfiguration & config,
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-  :  BT::SyncActionNode(name, config)
+  :  BT::AsyncActionNode(name, config)
   {
     setRegistrationID(name);
   }

@@ -14,10 +14,14 @@
 #ifndef BEHAVIOR_TREE_ACTION_BUILDER__ACTION_NODE_WITH_ACTION_HPP_
 #define BEHAVIOR_TREE_ACTION_BUILDER__ACTION_NODE_WITH_ACTION_HPP_
 
-#include <behaviortree_cpp_v3/action_node.h>
-#include <behaviortree_cpp_v3/bt_factory.h>
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_action/rclcpp_action.hpp>
+#include <string>
+#include <memory>
+
+#include "behaviortree_cpp_v3/action_node.h"
+#include "behaviortree_cpp_v3/bt_factory.h"
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp_action/rclcpp_action.hpp"
+
 namespace behavior_tree_action_builder
 {
 template<class ActionT>
@@ -31,11 +35,19 @@ public:
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
   :  BT::SyncActionNode(name, config), rclcpp::Node(name, options)
   {
+    name_ = name;
     setRegistrationID(name);
+    action_client_ = rclcpp_action::create_client<ActionT>(
+      get_node_base_interface(),
+      get_node_graph_interface(),
+      get_node_logging_interface(),
+      get_node_waitables_interface(),
+      name_);
   }
 
 protected:
-  std::string name;
+  std::string name_;
+  typename rclcpp_action::Client<ActionT>::SharedPtr action_client_;
   virtual void callbackGoalResponce(std::shared_future<typename GoalHandle::SharedPtr>) = 0;
   virtual void callbackFeedback(
     typename GoalHandle::SharedPtr,

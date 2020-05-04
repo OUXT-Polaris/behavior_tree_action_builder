@@ -18,17 +18,18 @@
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
-
+namespace behavior_tree_action_builder
+{
 template<class ActionT>
-class ActionNodeWithClient : public BT::SyncActionNode, rclcpp::Node
+class ActionNodeWithAction : public BT::SyncActionNode, public rclcpp::Node
 {
 public:
   using GoalHandle = rclcpp_action::ClientGoalHandle<ActionT>;
-  ActionNodeWithClient(
-      const std::string & name,
-      const BT::NodeConfiguration & config,
-      const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-      :  BT::SyncActionNode(name, config), rclcpp::Node(name, options)
+  ActionNodeWithAction(
+    const std::string & name,
+    const BT::NodeConfiguration & config,
+    const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
+  :  BT::SyncActionNode(name, config), rclcpp::Node(name, options)
   {
     setRegistrationID(name);
   }
@@ -37,8 +38,10 @@ protected:
   std::string name;
   virtual void callbackGoalResponce(std::shared_future<typename GoalHandle::SharedPtr>) = 0;
   virtual void callbackFeedback(
-      typename GoalHandle::SharedPtr,
-      const std::shared_ptr < typename ActionT::Feedback >) = 0;
+    typename GoalHandle::SharedPtr,
+    const std::shared_ptr<typename ActionT::Feedback>) = 0;
   virtual void callbackResult(const typename GoalHandle::WrappedResult &) = 0;
 };
+}  // namespace behavior_tree_action_builder
+
 #endif  // BEHAVIOR_TREE_ACTION_BUILDER__ACTION_NODE_WITH_ACTION_HPP_

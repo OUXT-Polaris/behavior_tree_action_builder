@@ -25,7 +25,8 @@ class ActionNode : public BT::SyncActionNode
 public:
   ActionNode(
     const std::string & name,
-    const BT::NodeConfiguration & config)
+    const BT::NodeConfiguration & config,
+    const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
   :  BT::SyncActionNode(name, config)
   {
     setRegistrationID(name);

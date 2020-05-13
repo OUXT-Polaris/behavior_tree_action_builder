@@ -18,6 +18,8 @@
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <string>
 
+#include "nav2_behavior_tree/bt_action_node.hpp"
+
 namespace behavior_tree_action_builder
 {
 class ActionNode : public BT::AsyncActionNode

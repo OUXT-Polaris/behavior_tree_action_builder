@@ -14,26 +14,28 @@
 
 #ifndef BEHAVIOR_TREE_ACTION_BUILDER__REGISTER_NODES_HPP_
 #define BEHAVIOR_TREE_ACTION_BUILDER__REGISTER_NODES_HPP_
+#include <behaviortree_cpp_v3/bt_factory.h>
+#include <string>
 namespace register_nodes
 {
 class NodeBuilder
 {
 public:
   template<class TNodeClass>
-  static auto build(const std::string action_name)
+  static auto build()
   {
-    return [action_name](const std::string & name, // NOLINT
+    return [](const std::string & name, // NOLINT
              const BT::NodeConfiguration & config) {
-             return std::make_unique<TNodeClass>(name, action_name, config); // NOLINT
+             return std::make_unique<TNodeClass>(name, config); // NOLINT
            };
   }
 };
 }  // namespace register_nodes
 
-#define REGISTER_NODES(node_namespace, class_name, action_name) \
+#define REGISTER_NODES(node_namespace, class_name) \
   BT_REGISTER_NODES(factory) { \
     factory.registerBuilder<node_namespace::class_name>(#class_name, \
-      register_nodes::NodeBuilder::build<node_namespace::class_name>("#action_name")); \
+      register_nodes::NodeBuilder::build<node_namespace::class_name>()); \
   } \
 
 #endif  // BEHAVIOR_TREE_ACTION_BUILDER__REGISTER_NODES_HPP_

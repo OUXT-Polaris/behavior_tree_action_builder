@@ -30,10 +30,7 @@ public:
 };
 }  // namespace register_nodes
 
-#define REGISTER_NODES(node_namespace, class_name) \
-  BT_REGISTER_NODES(factory) { \
-    factory.registerBuilder<node_namespace::class_name>(#class_name, \
-      register_nodes::NodeBuilder::build<node_namespace::class_name>()); \
-  } \
+#define REGISTER_NODES(node_namespace, class_name) \ 
+  BT_REGISTER_NODES(factory) {factory.registerBuilder<node_namespace::class_name>(#class_name,register_nodes::NodeBuilder::build<node_namespace::class_name>());} // NOLINT
 
 #endif  // BEHAVIOR_TREE_ACTION_BUILDER__REGISTER_NODES_HPP_
